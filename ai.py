@@ -1,17 +1,20 @@
 class AI:
 
-    DEPTH = 3
+    DEPTH = 10
 
     @staticmethod
     def score(game):
         if game.win():
-            return 50 if game.human_turn else -1
+            return 50 if game.human_turn else -1 
         else:
             return 0
 
     @staticmethod
     def recurse(game, depth):
-
+        # break conditions
+        # you won the game
+        # depth == 0 reached limit
+        
         if game.win():
             return AI.score(game)
 

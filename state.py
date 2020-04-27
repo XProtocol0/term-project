@@ -11,7 +11,8 @@ class WrongTurnException(Exception):
 
 class State:
 
-    HUMAN = 1
+    # cell value
+    HUMAN = 1 
     COMPUTER = 4
 
     def __init__(self):
@@ -20,8 +21,8 @@ class State:
         self.board = Board.new()
         self.last_turn = (-1, -1)
 
-    def __repr__(self):
-        return 'State()'
+ #   def __repr__(self):
+ #       return 'State()'
 
     def __str__(self):
         return '\n'.join([f'Player turn: {self.human_turn}', f'Turn count: {self.turn_count}', self.board.__str__()])
@@ -43,6 +44,14 @@ class State:
         return len(choice) != 0
 
     def choices(self, col):
+        '''
+        row = []
+        for row in [0,1,2,3]:
+                if self.board.check(row,col)==0:
+                    rows.apend(row)
+        return row
+  
+        '''
         return [row for row in [0, 1, 2, 3] if self.board.check(row, col) == 0]
 
     def col_check(self, col):
@@ -95,12 +104,13 @@ class State:
             # add more states as required
         ]
 
-        # helper function to add elements of two tuples
+        # helper function to add elements of two tuples (tuple here is cell)
         def add(tp1, tp2): return (tp1[0] + tp2[0], tp1[1] + tp2[1])
 
         return any (
             [
                 # evaluate sum of values calculated from a line
+                # 3 value is for human and 12 is for the computer.
                 sum(values) in [3, 12]
                 for values in [
                     [
@@ -111,7 +121,7 @@ class State:
                         # only add keep position if it is within board boundaries
                         if self.board.safe(*add(self.last_turn, offset))
                     ]
-
+                    
                     # iterate each line offset
                     for line_offset in line_offsets
                 ]

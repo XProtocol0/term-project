@@ -7,14 +7,14 @@ class Board:
     def __str__(self):
         return '\n'.join(row.__str__() for row in self.board)
 
-    def __repr__(self):
-        return f'Board({self.board.__repr__()})'
+    def __repr__(self): # we we print object of this class, rather than pointing to memory location, __reper__ function helps us to show it's value.
+        return f'Board({self.board.__repr__()})' 
 
     def __deepcopy__(self, memo):
         return Board(self.board)
 
-    @staticmethod
-    def new():
+    @staticmethod # makes function not belong to self. Helps us to create object. 
+    def new(): ## user defined function.
         return Board([[0, 0, 0, 0] for _ in range(4)])
 
     def select(self, row, col, value):

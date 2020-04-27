@@ -9,14 +9,14 @@ def render_board(game, frame, imgs):
         State.COMPUTER: imgs[0]
     }
 
-    for i in range(4):
+    for i in range(4):              # Think i as a row and j as column
         for j in range(4):
-            Button(frame, command = lambda col=j: human_move(game, frame, imgs, col), image=pick_img[game.board.check(i, j)]).grid(row=i, column=j)    
+           Button(frame, command = lambda col=j: human_move(game, frame, imgs, col), image=pick_img[game.board.check(i, j)]).grid(row=i, column=j)    
 
 def ai_move(game, frame, imgs):
     try:
         game.ai_choice()
-    except WrongTurnException as e:
+    except WrongTurnException:
         messagebox.showwarning('Warning', 'Let the human play')
 
     render_board(game, frame, imgs)
@@ -26,10 +26,11 @@ def ai_move(game, frame, imgs):
 
 def human_move(game, frame, imgs, col):
     try:
+        # changes the board value
         game.human_choice(col)
-    except ColumnFullException as e:
+    except ColumnFullException:
         messagebox.showwarning('Warning', 'Can\'t choose this column')
-    except WrongTurnException as e:
+    except WrongTurnException:
         messagebox.showwarning('Warning', 'Let the computer play')
 
     render_board(game, frame, imgs)
