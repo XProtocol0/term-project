@@ -15,7 +15,7 @@ class Board:
 
     @staticmethod # makes function not belong to self. Helps us to create object. 
     def new(): ## user defined function.
-        return Board([[0, 0, 0, 0] for _ in range(4)])
+        return Board([[0, 0, 0] for _ in range(3)])
 
     def select(self, row, col, value):
         self.board[row][col] = value
