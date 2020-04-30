@@ -9,9 +9,9 @@ def render_board(game, frame, imgs):
         State.COMPUTER: imgs[0]
     }
 
-    for i in range(4):              # Think i as a row and j as column
-        for j in range(4):
-           Button(frame, command = lambda col=j: human_move(game, frame, imgs, col), image=pick_img[game.board.check(i, j)]).grid(row=i, column=j)    
+    for i in range(3):              # Think i as a row and j as column
+        for j in range(3):
+           Button(frame, command = lambda row=i, col=j: human_move(game, frame, imgs, row,col), image=pick_img[game.board.check(i, j)]).grid(row=i, column=j)    
 
 def ai_move(game, frame, imgs):
     try:
@@ -24,10 +24,10 @@ def ai_move(game, frame, imgs):
     if game.win():
         messagebox.showinfo('GG', 'Computer wins')
 
-def human_move(game, frame, imgs, col):
+def human_move(game, frame, imgs, row, col):
     try:
         # changes the board value
-        game.human_choice(col)
+        game.human_choice(row, col)
     except ColumnFullException:
         messagebox.showwarning('Warning', 'Can\'t choose this column')
     except WrongTurnException:
@@ -44,7 +44,7 @@ if __name__ == "__main__":
     # create tkinter window
     win = Tk()
     win.title("PPAF - Align 3 game")
-    imgs = [PhotoImage(file = f) for f in ['green_blob.png', 'blue_blob.png', 'white_blob.png', 'base_line.png']]
+    imgs = [PhotoImage(file = f) for f in ['cross.png', 'circle.png', 'white_blob.png', 'base_line.png']]
 
     # align frames
     top_frame = Frame(win)
