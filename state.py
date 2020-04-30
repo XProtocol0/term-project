@@ -42,34 +42,35 @@ class State:
     def valid_move(self, col):
         choice = self.choices(col)
         return len(choice) != 0
-
+    
     def choices(self, col):
-        '''
+        '''    
         row = []
         for row in [0,1,2,3]:
                 if self.board.check(row,col)==0:
                     rows.apend(row)
         return row
-  
         '''
-        return [row for row in [0, 1, 2, 3] if self.board.check(row, col) == 0]
 
-    def col_check(self, col):
+        return [row for row in [0, 1, 2] if self.board.check(row, col) == 0]
+    
+
+    def col_check(self, row, col):
         choice = self.choices(col)
         if (len(choice) == 0):
             raise ColumnFullException
         else:
-            row = choice[0]
+            
             val = State.HUMAN if self.human_turn else State.COMPUTER
             self.board.select(row, col, val)
             self.turn_count += 1 
             self.last_turn = (row, col)
             self.human_turn = not self.human_turn
 
-    def human_choice(self, col):
+    def human_choice(self, row, col):
         if self.human_turn:
             try:
-                self.col_check(col)
+                self.col_check(row, col)
                 if self.win():
                     print('Game over human won')
             except ColumnFullException as e:
@@ -77,9 +78,9 @@ class State:
         else:
             raise WrongTurnException()
 
-    def ai_choice(self):
+    def ai_choice(self, row):
         if not self.human_turn:
-            self.col_check(AI.move(self))
+            self.col_check(row, AI.move(self))
             if self.win():
                 print('Game over computer won')
         else:
@@ -127,12 +128,3 @@ class State:
                 ]
             ]
         )
-
-if __name__ == "__main__":
-    s = State.new()
-    s.human_choice(1)
-    s.ai_choice()
-    assert(s.win() == False)
-    s.human_choice(1)
-    s.ai_choice()
-    assert(s.win() == False)
