@@ -21,8 +21,6 @@ class State:
         self.board = Board.new()
         self.last_turn = (-1, -1)
 
- #   def __repr__(self):
- #       return 'State()'
 
     def __str__(self):
         return '\n'.join([f'Player turn: {self.human_turn}', f'Turn count: {self.turn_count}', self.board.__str__()])
@@ -39,19 +37,13 @@ class State:
     def new():
         return State()
 
-    def valid_move(self, col):
-        choice = self.choices(col)
-        return len(choice) != 0
+    def valid_move(self, row, col):
+        if self.board.check(row,col) == 0:
+            return 1
+        else:
+            return 0
     
     def choices(self, col):
-        '''    
-        row = []
-        for row in [0,1,2,3]:
-                if self.board.check(row,col)==0:
-                    rows.apend(row)
-        return row
-        '''
-
         return [row for row in [0, 1, 2] if self.board.check(row, col) == 0]
     
 
@@ -78,9 +70,11 @@ class State:
         else:
             raise WrongTurnException()
 
-    def ai_choice(self, row):
+    def ai_choice(self):
         if not self.human_turn:
-            self.col_check(row, AI.move(self))
+            row, col = AI.move(self)
+            
+            self.col_check(row, col)
             if self.win():
                 print('Game over computer won')
         else:
